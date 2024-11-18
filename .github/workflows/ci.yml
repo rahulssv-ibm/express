@@ -1,4 +1,4 @@
-name: ci
+name: CI
 
 on:
   workflow_dispatch:
@@ -58,51 +58,12 @@ jobs:
           - os: ubuntu-22.04
             architecture: x64
             node-version: 20
-          - os: ubuntu-22.04
-            architecture: x64
-            node-version: 21
-          - os: ubuntu-22.04
-            architecture: x64
-            node-version: 22
-          - os: ubuntu-22.04
-            architecture: x64
-            node-version: 23
           - os: ubuntu-22.04-x64
             architecture: x64
             node-version: 18
-          - os: ubuntu-22.04-x64
-            architecture: x64
-            node-version: 19
-          - os: ubuntu-22.04-x64
-            architecture: x64
-            node-version: 20
-          - os: ubuntu-22.04-x64
-            architecture: x64
-            node-version: 21
-          - os: ubuntu-22.04-x64
-            architecture: x64
-            node-version: 22
-          - os: ubuntu-22.04-x64
-            architecture: x64
-            node-version: 23
           - os: ubuntu-22.04-ppc64le
             architecture: ppc64le
             node-version: 18
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
-            node-version: 19
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
-            node-version: 20
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
-            node-version: 21
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
-            node-version: 22
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
-            node-version: 23
 
     name: Node.js ${{ matrix.node-version }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -147,7 +108,7 @@ jobs:
       - name: Upload code coverage
         uses: actions/upload-artifact@v4
         with:
-          name: coverage
+          name: coverage-${{ matrix.os }}-${{ matrix.architecture }}-${{ github.sha }}
           path: ./coverage
           retention-days: 1
 
@@ -164,12 +125,13 @@ jobs:
       - name: Collect coverage reports
         uses: actions/download-artifact@v4
         with:
-          name: coverage
+          name: coverage-${{ matrix.os }}-${{ matrix.architecture }}-${{ github.sha }}
           path: ./coverage
 
       - name: Merge coverage reports
         shell: bash
-        run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+        run: |
+          find ./coverage -name "*.lcov" -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
 
       - name: Upload coverage report
         uses: coverallsapp/github-action@master

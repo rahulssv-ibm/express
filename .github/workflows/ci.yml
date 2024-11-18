@@ -25,6 +25,8 @@ jobs:
         include:
           - os: ubuntu-22.04
             architecture: x64
+          - os: ubuntu-22.04-x64
+            architecture: x64
           - os: ubuntu-22.04-ppc64le
             architecture: ppc64le
 
@@ -65,41 +67,41 @@ jobs:
           - os: ubuntu-22.04
             architecture: x64
             node-version: 23
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
+          - os: ubuntu-22.04-x64
+            architecture: x64
             node-version: 18
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
+          - os: ubuntu-22.04-x64
+            architecture: x64
             node-version: 19
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
+          - os: ubuntu-22.04-x64
+            architecture: x64
             node-version: 20
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
+          - os: ubuntu-22.04-x64
+            architecture: x64
             node-version: 21
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
+          - os: ubuntu-22.04-x64
+            architecture: x64
             node-version: 22
-          - os: ubuntu-22.04-ppc64le
-            architecture: ppc64le
+          - os: ubuntu-22.04-x64
+            architecture: x64
             node-version: 23
-          - os: windows-latest
-            architecture: x64
+          - os: ubuntu-22.04-ppc64le
+            architecture: ppc64le
             node-version: 18
-          - os: windows-latest
-            architecture: x64
+          - os: ubuntu-22.04-ppc64le
+            architecture: ppc64le
             node-version: 19
-          - os: windows-latest
-            architecture: x64
+          - os: ubuntu-22.04-ppc64le
+            architecture: ppc64le
             node-version: 20
-          - os: windows-latest
-            architecture: x64
+          - os: ubuntu-22.04-ppc64le
+            architecture: ppc64le
             node-version: 21
-          - os: windows-latest
-            architecture: x64
+          - os: ubuntu-22.04-ppc64le
+            architecture: ppc64le
             node-version: 22
-          - os: windows-latest
-            architecture: x64
+          - os: ubuntu-22.04-ppc64le
+            architecture: ppc64le
             node-version: 23
 
     name: Node.js ${{ matrix.node-version }} - ${{ matrix.os }}
@@ -173,3 +175,4 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+

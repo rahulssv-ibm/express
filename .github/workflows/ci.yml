@@ -17,7 +17,7 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: Lint - ${{ matrix.os }} (${{ matrix.architecture }})
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
@@ -32,6 +32,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -45,6 +46,7 @@ jobs:
         run: npm run lint
 
   test:
+    name: Test - Node.js ${{ matrix.node-version }} on ${{ matrix.os }} (${{ matrix.architecture }})
     strategy:
       fail-fast: false
       matrix:
@@ -65,7 +67,6 @@ jobs:
             architecture: ppc64le
             node-version: 18
 
-    name: Node.js ${{ matrix.node-version }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
@@ -97,22 +98,23 @@ jobs:
         shell: bash
         run: |
           npm run test-ci
-          cp coverage/lcov.info "coverage/${{ matrix.node-version }}.lcov"
+          cp coverage/lcov.info "coverage/${{ matrix.node-version }}-${{ matrix.os }}.lcov"
 
       - name: Collect code coverage
         run: |
-          mv ./coverage "./${{ matrix.node-version }}"
-          mkdir ./coverage
-          mv "./${{ matrix.node-version }}" "./coverage/${{ matrix.node-version }}"
+          mv ./coverage "./${{ matrix.node-version }}-${{ matrix.os }}"
+          mkdir -p ./coverage
+          mv "./${{ matrix.node-version }}-${{ matrix.os }}" "./coverage/${{ matrix.node-version }}-${{ matrix.os }}"
 
       - name: Upload code coverage
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ matrix.os }}-${{ matrix.architecture }}-${{ github.sha }}
+          name: coverage-${{ matrix.node-version }}-${{ matrix.os }}-${{ matrix.architecture }}-${{ github.sha }}
           path: ./coverage
           retention-days: 1
 
   coverage:
+    name: Merge Coverage Reports
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -125,7 +127,7 @@ jobs:
       - name: Collect coverage reports
         uses: actions/download-artifact@v4
         with:
-          name: coverage-${{ matrix.os }}-${{ matrix.architecture }}-${{ github.sha }}
+          name: coverage-${{ needs.test.outputs.matrix.os }}-${{ needs.test.outputs.matrix.architecture }}-${{ github.sha }}
           path: ./coverage
 
       - name: Merge coverage reports

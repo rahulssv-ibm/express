@@ -20,6 +20,8 @@ jobs:
     name: Lint - ${{ matrix.os }} (${{ matrix.architecture }}) [${{ matrix.runner-owner }}]
     runs-on: ${{ matrix.os }}
     continue-on-error: true
+    env:
+      NODE_OS: ${{ matrix.os }}
     strategy:
       matrix:
         include:
@@ -42,8 +44,17 @@ jobs:
           node-version: "lts/*"
           architecture: ${{ matrix.architecture }}
 
-      - name: Install dependencies
-        run: npm install --ignore-scripts --only=dev
+      - name: Configure npm loglevel
+        run: npm config set loglevel verbose
+
+      - name: Install dependencies with verbose logging
+        run: npm install --ignore-scripts --only=dev --loglevel=verbose
+
+      - name: Output Environment Variables
+        run: |
+          echo "Node OS: $NODE_OS"
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
 
       - name: Run lint
         run: npm run lint
@@ -81,6 +92,8 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     continue-on-error: true
+    env:
+      NODE_OS: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
@@ -94,15 +107,14 @@ jobs:
           architecture: ${{ matrix.architecture }}
 
       - name: Configure npm loglevel
-        run: |
-          npm config set loglevel error
-        shell: bash
+        run: npm config set loglevel verbose
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies with verbose logging
+        run: npm install --loglevel=verbose
 
-      - name: Output Node and NPM versions
+      - name: Output Environment Variables
         run: |
+          echo "Node OS: $NODE_OS"
           echo "Node.js version: $(node -v)"
           echo "NPM version: $(npm -v)"
 
@@ -129,8 +141,14 @@ jobs:
     name: Merge Coverage Reports
     needs: test
     runs-on: ubuntu-latest
+    env:
+      NODE_OS: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configure npm loglevel
+        run: npm config set loglevel verbose
 
       - name: Install lcov
         shell: bash
@@ -152,3 +170,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Output Environment Variables
+        run: |
+          echo "Node OS: $NODE_OS"

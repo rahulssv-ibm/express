@@ -29,8 +29,8 @@ jobs:
             architecture: x64
             runner-owner: "github-hosted"
           - os: ubuntu-22.04-lxd-selfhosted
-            architecture: x64
-            runner-owner: "actions-runner-x64"
+            architecture: ppc64le
+            runner-owner: "actions-runner-ppc64le"
           - os: ubuntu-22.04-ppc64le
             architecture: ppc64le
             runner-owner: "actions-runner-ppc64le"

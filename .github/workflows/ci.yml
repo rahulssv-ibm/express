@@ -28,10 +28,7 @@ jobs:
           - os: ubuntu-22.04
             architecture: x64
             runner-owner: "github-hosted"
-          - os: ubuntu-22.04-osu-selfhosted
-            architecture: ppc64le
-            runner-owner: "actions-runner-ppc64le"
-          - os: ubuntu-22.04-ppc64le
+          - os: centos-powervs-selfhosted
             architecture: ppc64le
             runner-owner: "actions-runner-ppc64le"
 
@@ -48,7 +45,8 @@ jobs:
         run: npm config set loglevel verbose
 
       - name: Install strace
-        run: sudo apt install strace -y
+        run: |
+          sudo apt install strace -y || sudo yum install strace -y
 
       - name: Install dependencies with verbose logging
         run: strace -e trace=network,open,read,write npm install --ignore-scripts --only=dev --loglevel=verbose

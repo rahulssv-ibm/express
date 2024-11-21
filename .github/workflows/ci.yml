@@ -47,7 +47,7 @@ jobs:
       - name: Configure npm loglevel
         run: npm config set loglevel verbose
 
-      - name: Configure npm loglevel
+      - name: Install strace
         run: sudo apt install strace -y
 
       - name: Install dependencies with verbose logging

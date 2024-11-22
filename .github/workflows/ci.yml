@@ -2,15 +2,6 @@ name: CI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-      - develop
-      - "4.x"
-      - "5.x"
-      - "5.0"
-    paths-ignore:
-      - "*.md"
   pull_request:
     paths-ignore:
       - "*.md"

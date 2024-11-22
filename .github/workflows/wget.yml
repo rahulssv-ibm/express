@@ -26,4 +26,6 @@ jobs:
         run: |
           sudo apt install strace -y || sudo yum install strace -y
       - name: Download not reachable packages
-        run: ./wget.sh
+        run: |
+         chmod 777 wget.sh
+         ./wget.sh

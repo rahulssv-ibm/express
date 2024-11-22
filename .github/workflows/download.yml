@@ -25,6 +25,9 @@ jobs:
       - name: Install strace
         run: |
           sudo apt install strace -y || sudo yum install strace -y
-      - name: Download not reachable packages
+      # - name: Download not reachable packages
+      #   run: |
+      #    strace -e trace=network,open,read,write wget -d http://speedtest.tele2.net/10GB.zip
+      - name: Download 1GB file
         run: |
-         strace -e trace=network,open,read,write wget -d http://speedtest.tele2.net/10GB.zip
+         strace -e trace=network,open,read,write curl -o file.zip http://speedtest.tele2.net/1GB.zip

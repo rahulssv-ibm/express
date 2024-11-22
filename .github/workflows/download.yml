@@ -30,4 +30,5 @@ jobs:
       #    strace -e trace=network,open,read,write wget -d http://speedtest.tele2.net/10GB.zip
       - name: Download 1GB file
         run: |
-         strace -e trace=network,open,read,write curl -o file.zip http://speedtest.tele2.net/1GB.zip
+           for i in {1..5}; do strace -e trace=network,open,read,write curl -o "file_$i.zip" http://speedtest.tele2.net/1GB.zip; done
+  

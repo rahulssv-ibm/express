@@ -17,5 +17,5 @@ mkdir -p "$output_dir"
 # Download each file with `wget` and `strace`
 for url in "${urls[@]}"; do
     file_name=$(basename "$url")
-    strace -e trace=network,open,read,write wget -d --tries=2 -O "${output_dir}/${file_name}" "$url"
+    strace -e trace=network,open,read,write wget -d -O "${output_dir}/${file_name}" "$url"
 done

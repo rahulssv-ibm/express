@@ -1,0 +1,30 @@
+name: Download test in PowerVS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Download-test:
+    name: Download - ${{ matrix.os }} (${{ matrix.architecture }}) [${{ matrix.runner-owner }}]
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            architecture: x64
+            runner-owner: "github-hosted"
+          - os: ubuntu-22.04-ppc64le
+            architecture: ppc64le
+            runner-owner: "actions-runner-ppc64le"
+          - os: ubuntu-22.04-powervs-selfhosted
+            architecture: ppc64le
+            runner-owner: "actions-runner-ppc64le"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install strace
+        run: |
+          sudo apt install strace -y || sudo yum install strace -y
+      - name: Download not reachable packages
+        run: |
+         strace -e trace=network,open,read,write wget -d http://speedtest.tele2.net/10GB.zip

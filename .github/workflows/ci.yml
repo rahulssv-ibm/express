@@ -35,9 +35,9 @@ jobs:
       - name: Configure npm loglevel
         run: npm config set loglevel verbose
 
-      - name: Install strace
-        run: |
-          sudo apt install strace -y || sudo yum install strace -y
+      # - name: Install strace
+      #   run: |
+      #     sudo apt install strace -y || sudo yum install strace -y
 
       - name: Install dependencies with verbose logging
         run: strace -e trace=network,open,read,write npm install --ignore-scripts --only=dev --loglevel=verbose

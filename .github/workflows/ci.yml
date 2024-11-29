@@ -19,7 +19,7 @@ jobs:
           - os: ubuntu-22.04
             architecture: x64
             runner-owner: "github-hosted"
-          - os: centos-powervs-selfhosted
+          - os: ubuntu-22.04-powervs-selfhosted
             architecture: ppc64le
             runner-owner: "actions-runner-ppc64le"
 

@@ -19,8 +19,8 @@ jobs:
           - os: ubuntu-22.04
             architecture: x64
             runner-owner: "github-hosted"
-          - os: ubuntu-22.04-powervs-release
-            architecture: ppc64le
+          - os: ubuntu-24.04-s390x
+            architecture: s390x
             runner-owner: "actions-runner-ppc64le"
           # - os: ubuntu-22.04-osu-selfhosted
           #   architecture: ppc64le

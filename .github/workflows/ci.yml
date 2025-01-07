@@ -22,7 +22,7 @@ jobs:
           # - os: ubuntu-24.04-s390x
           #   architecture: s390x
           #   runner-owner: "actions-runner-ppc64le"
-          - os: ubuntu-22.04-powervs-selfhosted
+          - os: ubuntu-22.04-ppc64le
             architecture: ppc64le
             runner-owner: "actions-runner-ppc64le"
 
